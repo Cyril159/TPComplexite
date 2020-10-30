@@ -7,13 +7,12 @@
 Bool estZoneVide(MatriceAdj matr, int sommets[], int nbSommets){
     for(size_t i = 0; i < nbSommets; i++){
         int sommet = sommets[i];
-        for(size_t j = i+1; j < nbSommets; j++){
-            if(matr.matrice[sommet][j] == 1)
+        for(size_t j = 0; j < nbSommets; j++){
+            if(matr.matrice[sommet][sommets[j]] == 1)
                 return 0;
         }
     }
     return 1;
-
 }
 
 Bool estPasDansTab(size_t sommet, int tabSommets[], size_t taille){
@@ -78,47 +77,16 @@ MatriceAdj creerMatrAlea(size_t taille){
             mat.matrice[i][j] = res;
             mat.matrice[j][i] = res;
         }
+        mat.matrice[i][i] = 0;
     }
     mat.matrice[0][0] = 0;
-    mat.matrice[taille - 1][taille -1] = 0;
     return mat;
 }
 
 int main(){
     srand(time(0));
-    MatriceAdj matr;
-    matr.n = 5;
-    matr.matrice[0][0] = 0;
-    matr.matrice[0][1] = 1;
-    matr.matrice[0][2] = 1;
-    matr.matrice[0][3] = 1;
-    matr.matrice[0][4] = 1;
-
-    matr.matrice[1][0] = 1;
-    matr.matrice[1][1] = 0;
-    matr.matrice[1][2] = 1;
-    matr.matrice[1][3] = 0;
-    matr.matrice[1][4] = 1;
-
-    matr.matrice[2][0] = 1;
-    matr.matrice[2][1] = 1;
-    matr.matrice[2][2] = 0;
-    matr.matrice[2][3] = 1;
-    matr.matrice[2][4] = 0;
-
-    matr.matrice[3][0] = 1;
-    matr.matrice[3][1] = 0;
-    matr.matrice[3][2] = 1;
-    matr.matrice[3][3] = 0;
-    matr.matrice[3][4] = 0;
-
-    matr.matrice[4][0] = 1;
-    matr.matrice[4][1] = 1;
-    matr.matrice[4][2] = 0;
-    matr.matrice[4][3] = 0;
-    matr.matrice[4][4] = 0;
-
-      MatriceAdj mat = creerMatrAlea(5);
+ 
+      MatriceAdj mat = creerMatrAlea(600);
     for(size_t i =0; i < mat.n; i++){
         for(size_t j = 0; j < mat.n; j++)
             printf("%d ", mat.matrice[i][j]);
@@ -126,17 +94,17 @@ int main(){
     }
     printf("---------\n");
     int * zone_vide_max = zoneVideMax(mat);
-    for(size_t i = 0; i < matr.n; i++)
+    for(size_t i = 0; i < mat.n; i++)
         printf("%d, ", zone_vide_max[i]);
 
     int taille = 0;
-    for(size_t i = 0; i < matr.n; i++){
+    for(size_t i = 0; i < mat.n; i++){
         if(zone_vide_max[i] == -1)
             break;
         taille++;
     }
     printf("\n Taille : %d \n", taille);
-    printf("\n Vérification : %d", estZoneVide(mat, zone_vide_max, taille));
+    printf("Vérification : %d \n", estZoneVide(mat, zone_vide_max, taille));
     free(zone_vide_max);
    
     

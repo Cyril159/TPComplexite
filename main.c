@@ -70,7 +70,7 @@ int *zoneVideMax(MatriceAdj matrice){
 
 MatriceAdj creerMatrAlea(size_t taille){
     MatriceAdj mat;
-    mat.n = taille;
+    initMatr(taille, &mat);
     for(size_t i = 1; i < taille ; i++){
         for(size_t j =0; j < i; j++){
             int res = rand()%2;
@@ -83,15 +83,32 @@ MatriceAdj creerMatrAlea(size_t taille){
     return mat;
 }
 
+void afficherTab1D(int *tab, size_t taille){
+    printf("(");
+    for(size_t i = 0; i < taille; i++)
+        printf("%d, ", tab[i]);
+    printf(")\n");
+}
+
 int main(){
     srand(time(0));
  
-      MatriceAdj mat = creerMatrAlea(600);
-    for(size_t i =0; i < mat.n; i++){
-        for(size_t j = 0; j < mat.n; j++)
-            printf("%d ", mat.matrice[i][j]);
-        printf("\n");
-    }
+    size_t taille = 500;
+    MatriceAdj mat = creerMatrAlea(taille);
+    int tab[taille];
+    for(size_t i = 0; i < taille; i++)
+        tab[i] = 0;
+    
+    printf("Debut : \n");
+    time_t debut = time(NULL);
+    int* res = zoneVideMax(mat);
+    afficherTab1D(res, mat.n);
+    time_t fin = time(NULL);
+    time_t duree = fin - debut;
+    printf("Le temps est : %ld \n", duree);
+    libererMatr(&mat);
+    free(res);
+    /*
     printf("---------\n");
     int * zone_vide_max = zoneVideMax(mat);
     for(size_t i = 0; i < mat.n; i++)
@@ -105,9 +122,7 @@ int main(){
     }
     printf("\n Taille : %d \n", taille);
     printf("Vérification : %d \n", estZoneVide(mat, zone_vide_max, taille));
-    free(zone_vide_max);
+    free(zone_vide_max);*/
    
-    
     return 0;
 }
-
